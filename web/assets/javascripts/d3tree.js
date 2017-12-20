@@ -53,25 +53,12 @@ function binding(merkleRoots, branches) {
             if (count < merkleRoots.length){
                 b.stamp = merkleRoots[count];
                 count++;
-            } else {
-                var lastSide = 0;
-                if(merkleRoots.length === 0)
-                    lastSide = merkleRoots[0];
-                else
-                    lastSide = merkleRoots[merkleRoots.length-1];
-                removeFromTip(lastSide, b);
             }
         }
     });
     //console.log('count',count);
 }
 
-function removeFromTip(merkleRoot, b){
-    $("#id-"+parseInt(b.i)).hide();
-
-    //var parent = branches[b.parent];
-    //if (parent.)
-}
 
 function regenerate(merkleRoots, depth, initialise) {
     maxDepth = depth;
@@ -95,32 +82,58 @@ function y1(d) {return d.y;}
 function x2(d) {return endPt(d).x;}
 function y2(d) {return endPt(d).y;}
 function highlightParents(d) {
-    console.log("--- start highlightParents ---");
-    var colour = d3.event.type === 'mouseover' ? 'green' : '#777';
+    var colour = d3.event.type === 'mouseover' ? 'brown' : '#777';
     var depth = d.d;
     var branch = d;
     for(var i = 0; i <= depth; i++) {
         d3.select('#id-'+parseInt(d.i)).style('stroke', colour);
         d = branches[d.parent];
     }
-    console.log("--- start print ---");
 
-    for (var i=0;i<branches.length;i++){
-        if (branches[i].d === depth){
-            if (parseInt(branches[i].i) === branch.i){
-                printing(branches[i]);
-                return;
-            }
-        }
-    };
-    console.log("--- end print ---");
-
+    writeOTS(branch);
 }
-function printing(b){
-    if(b.stamp){
-        console.log(b.stamp.toString());
+function writeOTS(branch){
+
+    if (branch.d == maxDepth){
+        // is a tips
+        if (branch.stamp === undefined ){
+            // incomplete
+            incompletePath(branch);
+            clearing();
+        } else {
+            // exist
+            completePath(branch);
+            printing(branch);
+        }
+    } else {
+        // intermediate path
+        clearing();
     }
 }
+
+function completePath(d) {
+    console.log("incompletePath");
+    var colour = d3.event.type === 'mouseover' ? 'green' : '#777';
+    var depth = d.d;
+    if (depth!=maxDepth)
+        return;
+    for(var i = 0; i <= depth; i++) {
+        d3.select('#id-'+parseInt(d.i)).style('stroke', colour);
+        d = branches[d.parent];
+    }
+}
+function incompletePath(d) {
+    console.log("incompletePath");
+    var colour = d3.event.type === 'mouseover' ? 'red' : '#777';
+    var depth = d.d;
+    if (depth!=maxDepth)
+        return;
+    for(var i = 0; i <= depth; i++) {
+        d3.select('#id-'+parseInt(d.i)).style('stroke', colour);
+        d = branches[d.parent];
+    }
+}
+
 function create() {
     d3.select('svg')
         .selectAll('line')

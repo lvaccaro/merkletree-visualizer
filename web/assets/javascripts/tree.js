@@ -38,7 +38,7 @@ var enableRefresh=true;
 function init(){
     $("#blockHash").val('000000000000000000e45bba92056fab483a3588e4936cc495831728969d749e');
     search();
-    setInterval(function(){ if(enableRefresh){refresh();} }, 1000);
+    //setInterval(function(){ if(enableRefresh){refresh();} }, 1000);
     $("#chart").mouseenter(function(){
         enableRefresh = false;
     }).mouseleave(function(){
@@ -52,12 +52,14 @@ $( document ).ready(function() {
 });
 
 // print merkle receipt
-function printing(branch){
-    if(branch.stamp !== undefined ){
-        $("#table").empty();
-        var obj = branch.stamp.toJson();
-        print(obj);
-    }
+function printing(branch) {
+    clearing();
+    var obj = branch.stamp.toJson();
+    print(obj);
+}
+
+function clearing(){
+    $("#table").empty();
 }
 
 
@@ -65,9 +67,8 @@ function printing(branch){
 
 
 
-
 /*
-* OPENTIMESTAMPS
+* OPENTIMESTAMPS INFO PAGE
 * */
 /*
 const ots = getParameterByName('ots');

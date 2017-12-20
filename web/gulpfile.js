@@ -43,12 +43,9 @@ gulp.task('javascript', function() {
         .pipe(gulp.dest('assets/javascripts'));
 });
 
-gulp.task('bower', function() {
-    return bower();
-});
 
 gulp.task('default', function(done) {
-    runSequence('clean','sass','javascript','bower', function(){
+    runSequence('clean','sass','javascript', function(){
         done();
     });
 });
