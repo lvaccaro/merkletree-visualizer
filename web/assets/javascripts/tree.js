@@ -22,15 +22,29 @@ function search(){
     MerkleTree.tree(blockHash).then( (roots)=>{
         maxDepth = Math.ceil(Math.log(roots.length) / Math.log(2));
         merkleRoots = roots;
+        $("#merkleRoot").html("Merkle tree from "+toHexString(getMerkleRoot(merkleRoots[0])));
         regenerate(roots, maxDepth, true);
     }).catch(err => {
         console.log("err "+err);
     });
 }
 
+function getMerkleRoot(merkleRoot){
+    if ( merkleRoot.ops === undefined || merkleRoot.ops.size == 0) {
+        return merkleRoot.msg;
+    }
+    return getMerkleRoot(merkleRoot.ops.values().next().value)
+}
+
 function refresh(){
     console.log("refresh");
     regenerate(merkleRoots, maxDepth, false);
+}
+
+function toHexString(byteArray) {
+    return Array.from(byteArray, function(byte) {
+        return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+    }).join('')
 }
 
 // set default init
