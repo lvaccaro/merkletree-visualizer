@@ -13,6 +13,5 @@ Compile web frontend:
 ```shell
 cd ./web
 gulp
-bower install
 ```
 HTML page: ./web/tree.html
