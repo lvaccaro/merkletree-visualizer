@@ -6,3 +6,4 @@ signature.key
 signature.wif
 deploy.sh
 dist/
+package-lock.json

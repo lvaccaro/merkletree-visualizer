@@ -11,7 +11,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "fs": "0.0.1-security",
-    "javascript-opentimestamps": "^0.2.6",
+    "javascript-opentimestamps": "^0.2.7",
     "promise": "^8.0.1",
     "request-promise": "^4.2.2"
   },
