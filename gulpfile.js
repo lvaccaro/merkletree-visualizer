@@ -27,6 +27,11 @@ gulp.task('compress', cb => {
         cb
     );
 });
+gulp.task('copy', function () {
+    return gulp
+        .src('./dist/lib.js')
+        .pipe(gulp.dest('./web/assets/javascripts/'));
+});
 
 gulp.task('index', () => {
   const options = {
@@ -55,7 +60,7 @@ gulp.task('index', () => {
 });
 
 gulp.task('default', done => {
-  runSequence('clean', 'index', 'compress', () => {
+  runSequence('clean', 'index', 'compress', 'copy', () => {
     done();
   });
 });
